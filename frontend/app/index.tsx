@@ -1,7 +1,11 @@
+import Button from '@/components/Button';
 import { styles } from '@/styles/styles';
-import { Text, TouchableOpacity, View } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { Text, View } from 'react-native';
 
 export default function Index() {
+  const navigation = useNavigation();
+
   return (
     <View style={styles.mainMenuContainer}>
       <View style={styles.mainMenuHalfContainer}>
@@ -9,13 +13,13 @@ export default function Index() {
       </View>
 
       <View style={styles.mainMenuHalfContainer}>
-        <TouchableOpacity style={styles.button}>
+        <Button onPress={() => navigation.navigate('addtime' as never)}>
           <Text style={styles.buttonText} children='ODBIJ SIĘ' />
-        </TouchableOpacity>
+        </Button>
 
-        <TouchableOpacity style={styles.button}>
+        <Button onPress={() => navigation.navigate('showtime' as never)}>
           <Text style={styles.buttonText} children='ZOBACZ DANE' />
-        </TouchableOpacity>
+        </Button>
       </View>
     </View>
   );

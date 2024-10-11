@@ -7,6 +7,8 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
 
     backgroundColor: '#262626',
+
+    padding: 20,
   },
 
   mainMenuHalfContainer: {
@@ -15,13 +17,25 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
 
     gap: 40,
-    padding: 20,
 
     width: '100%',
   },
 
+  mainTimeContainer: {
+    flex: 1,
+
+    backgroundColor: '#262626',
+
+    padding: 20,
+  },
+
   logo: {
     fontSize: 48,
+    color: '#fff',
+  },
+
+  header: {
+    fontSize: 36,
     color: '#fff',
   },
 

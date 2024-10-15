@@ -16,17 +16,40 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
 
-    gap: 40,
+    gap: 20,
 
     width: '100%',
   },
 
   mainTimeContainer: {
     flex: 1,
+    justifyContent: 'space-between',
 
     backgroundColor: '#262626',
 
     padding: 20,
+    gap: 20,
+  },
+
+  timeRecordsContainer: {
+    flex: 1,
+    gap: 12,
+
+    overflow: 'scroll',
+  },
+
+  timeRecordContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 20,
+
+    borderRadius: 12,
+  },
+
+  timeRecordText: {
+    fontSize: 16,
+    color: '#fff',
   },
 
   logo: {

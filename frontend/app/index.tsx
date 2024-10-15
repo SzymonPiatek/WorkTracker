@@ -1,4 +1,4 @@
-import Button from '@/components/Button';
+import Button from '@/components/button/Button';
 import { styles } from '@/styles/styles';
 import { useNavigation } from '@react-navigation/native';
 import { Text, View } from 'react-native';

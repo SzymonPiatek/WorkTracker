@@ -1,4 +1,4 @@
-import BackButton from '@/components/BackButton';
+import BackButton from '@/components/button/BackButton';
 import { styles } from '@/styles/styles';
 import { useNavigation } from '@react-navigation/native';
 import { Text, View } from 'react-native';

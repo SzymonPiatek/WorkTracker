@@ -1,0 +1,48 @@
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - '5000:5000'
+    env_file:
+      - envs/api.env
+      - envs/db.env
+    volumes:
+      - ./backend:/usr/src/app
+      - /usr/src/app/node_modules
+    networks:
+      - internal
+    depends_on:
+      db:
+        condition: service_healthy
+    command: >
+      sh -c "
+      npx prisma migrate deploy &&
+      npm run dev
+      "
+
+  db:
+    image: postgres
+    restart: always
+    ports:
+      - '5432:5432'
+    volumes:
+      - ./db/data:/var/lib/postgresql/data
+    env_file:
+      - envs/db.env
+    networks:
+      - internal
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U $POSTGRES_USER -d $POSTGRES_DB']
+      interval: 3s
+      timeout: 3s
+      retries: 5
+
+volumes:
+  db_volume:
+  node_modules_backend:
+
+networks:
+  internal:
+    driver: bridge

@@ -16,14 +16,10 @@ export default function ShowTimePage() {
     { id: 6, isEntry: false, timestamp: new Date(Date.UTC(2024, 7, 11, 16, 0, 0)) },
     { id: 7, isEntry: true, timestamp: new Date(Date.UTC(2024, 7, 12, 8, 0, 0)) },
     { id: 8, isEntry: false, timestamp: new Date(Date.UTC(2024, 7, 12, 16, 0, 0)) },
-    { id: 9, isEntry: true, timestamp: new Date(Date.UTC(2024, 7, 11, 8, 0, 0)) },
-    { id: 10, isEntry: false, timestamp: new Date(Date.UTC(2024, 7, 11, 16, 0, 0)) },
-    { id: 11, isEntry: true, timestamp: new Date(Date.UTC(2024, 7, 12, 8, 0, 0)) },
-    { id: 12, isEntry: false, timestamp: new Date(Date.UTC(2024, 7, 12, 16, 0, 0)) },
-    { id: 13, isEntry: true, timestamp: new Date(Date.UTC(2024, 10, 13, 8, 0, 0)) },
-    { id: 14, isEntry: false, timestamp: new Date(Date.UTC(2024, 10, 13, 16, 0, 0)) },
-    { id: 15, isEntry: true, timestamp: new Date(Date.UTC(2024, 10, 14, 8, 0, 0)) },
-    { id: 16, isEntry: false, timestamp: new Date(Date.UTC(2024, 10, 14, 16, 0, 0)) },
+    { id: 9, isEntry: true, timestamp: new Date(Date.UTC(2024, 10, 13, 8, 0, 0)) },
+    { id: 10, isEntry: false, timestamp: new Date(Date.UTC(2024, 10, 13, 16, 0, 0)) },
+    { id: 11, isEntry: true, timestamp: new Date(Date.UTC(2024, 10, 14, 8, 0, 0)) },
+    { id: 12, isEntry: false, timestamp: new Date(Date.UTC(2024, 10, 14, 16, 0, 0)) },
   ]);
   const navigation = useNavigation();
 

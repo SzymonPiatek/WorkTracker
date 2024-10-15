@@ -1,6 +1,6 @@
-FROM node:18
+FROM node:20.11.1-alpine AS development
 
-WORKDIR /app
+WORKDIR /usr/src/app
 
 COPY package*.json ./
 
@@ -8,10 +8,6 @@ RUN npm install
 
 COPY . .
 
-RUN npm install prisma --save-dev
-
 RUN npx prisma generate
-
-EXPOSE 5000
 
 CMD ["npm", "run", "dev"]

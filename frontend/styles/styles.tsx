@@ -33,9 +33,9 @@ export const styles = StyleSheet.create({
 
   timeRecordsContainer: {
     flex: 1,
+    display: 'flex',
+    flexDirection: 'column',
     gap: 12,
-
-    overflow: 'scroll',
   },
 
   timeRecordContainer: {
@@ -43,8 +43,20 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 20,
-
     borderRadius: 12,
+  },
+
+  timeRecordTitle: {
+    fontSize: 20,
+    color: '#fff',
+    textAlign: 'center',
+  },
+
+  timeRecordTitleDiv: {
+    backgroundColor: '#d46013',
+    borderRadius: 12,
+
+    paddingVertical: 4,
   },
 
   timeRecordText: {

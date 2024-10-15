@@ -12,6 +12,10 @@ export default function ShowTimePage() {
     { id: 2, isEntry: false, timestamp: new Date(Date.UTC(2024, 9, 11, 16, 0, 0)) },
     { id: 3, isEntry: true, timestamp: new Date(Date.UTC(2024, 9, 12, 8, 0, 0)) },
     { id: 4, isEntry: false, timestamp: new Date(Date.UTC(2024, 9, 12, 16, 0, 0)) },
+    { id: 5, isEntry: true, timestamp: new Date(Date.UTC(2024, 8, 11, 8, 0, 0)) },
+    { id: 6, isEntry: false, timestamp: new Date(Date.UTC(2024, 8, 11, 16, 0, 0)) },
+    { id: 7, isEntry: true, timestamp: new Date(Date.UTC(2024, 8, 12, 8, 0, 0)) },
+    { id: 8, isEntry: false, timestamp: new Date(Date.UTC(2024, 8, 12, 16, 0, 0)) },
   ]);
   const navigation = useNavigation();
 

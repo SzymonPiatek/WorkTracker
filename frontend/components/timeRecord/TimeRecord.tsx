@@ -1,4 +1,5 @@
 import { styles } from '@/styles/styles';
+import { daysOfWeek } from '@/utils/date';
 import { TimeRecordType } from '@/utils/types';
 import { Text, View } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -10,8 +11,6 @@ export function TimeRecord({ record }: { record: TimeRecordType }) {
   const year = date.getUTCFullYear();
   const day = date.getUTCDay();
 
-  const daysOfWeek = ['Niedziela', 'Poniedziałek', 'Wtorek', 'Środa', 'Czwartek', 'Piątek', 'Sobota'];
-
   const dayName = daysOfWeek[day];
   const thisDate = `${day}.${month}.${year}`;
 
@@ -19,7 +18,7 @@ export function TimeRecord({ record }: { record: TimeRecordType }) {
     <View style={styles.timeRecordContainer}>
       <Icon
         name={record.isEntry ? 'arrow-circle-right' : 'arrow-circle-left'}
-        style={[{ fontSize: 20 }, record.isEntry ? { color: 'green' } : { color: 'red' }]}
+        style={[{ fontSize: 24 }, record.isEntry ? { color: 'green' } : { color: 'red' }]}
       />
       <View
         style={{

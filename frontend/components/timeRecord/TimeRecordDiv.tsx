@@ -12,10 +12,17 @@ export function TimeRecordsDiv({ records }: { records: TimeRecordType[] | [] }) 
   const [visibleMonths, setVisibleMonths] = useState<{ [key: string]: boolean }>({});
 
   const toggleMonthVisibility = (yearMonth: string) => {
-    setVisibleMonths((prev) => ({
-      ...prev,
-      [yearMonth]: !prev[yearMonth],
-    }));
+    setVisibleMonths((prev) => {
+      const newVisibility: { [key: string]: boolean } = {};
+
+      Object.keys(prev).forEach((month) => {
+        newVisibility[month] = false;
+      });
+
+      newVisibility[yearMonth] = !prev[yearMonth];
+
+      return newVisibility;
+    });
   };
 
   const groupRecordsByMonth = (records: TimeRecordType[]) => {
@@ -32,6 +39,16 @@ export function TimeRecordsDiv({ records }: { records: TimeRecordType[] | [] }) 
 
   const groupedRecords = groupRecordsByMonth(records);
 
+  const sortedMonthKeys = Object.keys(groupedRecords).sort((a, b) => {
+    const [yearA, monthA] = a.split('-').map(Number);
+    const [yearB, monthB] = b.split('-').map(Number);
+    return yearA === yearB ? monthB - monthA : yearB - yearA;
+  });
+
+  Object.values(groupedRecords).forEach((records) => {
+    records.sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
+  });
+
   useEffect(() => {
     setVisibleMonths((prev) => ({
       ...prev,
@@ -43,7 +60,7 @@ export function TimeRecordsDiv({ records }: { records: TimeRecordType[] | [] }) 
     <View style={{ flex: 1 }}>
       <ScrollView style={{ gap: 20 }}>
         <View style={{ gap: 20 }}>
-          {Object.keys(groupedRecords).map((yearMonth) => {
+          {sortedMonthKeys.map((yearMonth) => {
             const [year, month] = yearMonth.split('-');
             const monthName = `${monthNames[parseInt(month) - 1]} ${year}`;
             const isVisible = visibleMonths[yearMonth];
@@ -56,9 +73,13 @@ export function TimeRecordsDiv({ records }: { records: TimeRecordType[] | [] }) 
 
                 {isVisible && (
                   <View style={styles.timeRecordsContainer}>
-                    {groupedRecords[yearMonth].map((record) => (
-                      <TimeRecord key={record.id} record={record} />
-                    ))}
+                    {groupedRecords[yearMonth].map((record) => {
+                      const recordDate = new Date(record.timestamp);
+                      const dayOfMonth = recordDate.getUTCDate();
+                      const isEven = dayOfMonth % 2 === 0;
+
+                      return <TimeRecord key={record.id} record={record} isEven={isEven} />;
+                    })}
                   </View>
                 )}
               </View>

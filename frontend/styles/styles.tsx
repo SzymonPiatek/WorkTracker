@@ -1,12 +1,16 @@
 import { StyleSheet } from 'react-native';
 
+export const primaryColor = '#d48713';
+export const secondaryColor = '#d46013';
+export const backgroundColor = '#262626';
+
 export const styles = StyleSheet.create({
   mainMenuContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
 
-    backgroundColor: '#262626',
+    backgroundColor: backgroundColor,
 
     padding: 20,
   },
@@ -25,7 +29,7 @@ export const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'space-between',
 
-    backgroundColor: '#262626',
+    backgroundColor: backgroundColor,
 
     padding: 20,
     gap: 20,
@@ -53,7 +57,7 @@ export const styles = StyleSheet.create({
   },
 
   timeRecordTitleDiv: {
-    backgroundColor: '#d46013',
+    backgroundColor: secondaryColor,
     borderRadius: 12,
 
     paddingVertical: 4,
@@ -80,7 +84,7 @@ export const styles = StyleSheet.create({
   },
 
   button: {
-    backgroundColor: '#d48713',
+    backgroundColor: primaryColor,
     paddingHorizontal: 20,
     paddingVertical: 12,
     borderRadius: 12,

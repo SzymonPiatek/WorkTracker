@@ -3,7 +3,7 @@ import { TimeRecordsDiv } from '@/components/timeRecord/TimeRecordDiv';
 import { styles } from '@/styles/styles';
 import { TimeRecordType } from '@/utils/types';
 import { useNavigation } from '@react-navigation/native';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Text, View } from 'react-native';
 
 export default function ShowTimePage() {
@@ -22,6 +22,23 @@ export default function ShowTimePage() {
     { id: 12, isEntry: false, timestamp: new Date(Date.UTC(2024, 10, 14, 16, 0, 0)) },
   ]);
   const navigation = useNavigation();
+
+  const fetchData = async () => {
+    try {
+      const response = await fetch('http://192.168.101.145:5000/api/v1/work/');
+      if (!response.ok) {
+        throw new Error(`Error: ${response.status} ${response.statusText}`);
+      }
+      const data = await response.json();
+      setTimeRecords(data.items);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   return (
     <View style={styles.mainTimeContainer}>

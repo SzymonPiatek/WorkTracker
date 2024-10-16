@@ -1,5 +1,5 @@
 import { styles } from '@/styles/styles';
-import { Text, TouchableOpacity, View } from 'react-native';
+import { Pressable, Text, View } from 'react-native';
 
 export default function BackButton({ navigation }: { navigation: any }) {
   return (
@@ -11,9 +11,9 @@ export default function BackButton({ navigation }: { navigation: any }) {
         alignItems: 'flex-end',
       }}
     >
-      <TouchableOpacity onPress={() => navigation.goBack()} style={styles.button}>
+      <Pressable onPress={() => navigation.goBack()} style={styles.button}>
         <Text style={styles.buttonText}>WSTECZ</Text>
-      </TouchableOpacity>
+      </Pressable>
     </View>
   );
 }

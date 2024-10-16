@@ -39,7 +39,9 @@ export default function ShowTimePage() {
 
       <View style={{ flex: 1 }}>
         {isLoading ? (
-          <Text>Ładowanie danych...</Text>
+          <View style={{ flex: 1, justifyContent: 'center' }}>
+            <Text style={{ textAlign: 'center', color: '#fff', fontSize: 24 }}>Ładowanie danych...</Text>
+          </View>
         ) : timeRecords.length > 0 ? (
           <TimeRecords records={timeRecords} />
         ) : (

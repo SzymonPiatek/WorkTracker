@@ -1,10 +1,10 @@
 import BackButton from '@/components/button/BackButton';
 import Button from '@/components/button/Button';
+import { workUrl } from '@/constants';
 import { styles } from '@/styles/styles';
 import { useNavigation } from '@react-navigation/native';
 import { useState } from 'react';
 import { Alert, Text, View } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
 
 export default function AddTimePage() {
   const navigation = useNavigation();
@@ -13,7 +13,7 @@ export default function AddTimePage() {
 
   const handleAddTime = async () => {
     try {
-      const response = await fetch('http://192.168.101.145:5000/api/v1/work/', {
+      const response = await fetch(workUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

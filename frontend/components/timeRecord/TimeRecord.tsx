@@ -22,7 +22,7 @@ export function TimeRecord({ record, isEven }: { record: TimeRecordType; isEven:
     <View style={styles.timeRecordContainer}>
       <Icon
         name={record.isEntry ? 'arrow-circle-right' : 'arrow-circle-left'}
-        style={[{ fontSize: 24 }, record.isEntry ? { color: 'green' } : { color: 'red' }]}
+        style={[{ color: `${record.isEntry ? 'green' : 'red'}`, fontSize: 28 }]}
       />
       <View
         style={{

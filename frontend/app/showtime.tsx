@@ -1,5 +1,6 @@
 import BackButton from '@/components/button/BackButton';
 import { TimeRecordsDiv } from '@/components/timeRecord/TimeRecordDiv';
+import { workUrl } from '@/constants';
 import { styles } from '@/styles/styles';
 import { TimeRecordType } from '@/utils/types';
 import { useNavigation } from '@react-navigation/native';
@@ -13,7 +14,7 @@ export default function ShowTimePage() {
 
   const fetchData = async () => {
     try {
-      const response = await fetch('http://192.168.101.145:5000/api/v1/work/');
+      const response = await fetch(workUrl);
       if (!response.ok) {
         throw new Error(`Error: ${response.status} ${response.statusText}`);
       }

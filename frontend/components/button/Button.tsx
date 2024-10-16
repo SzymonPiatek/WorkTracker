@@ -1,5 +1,5 @@
 import { styles } from '@/styles/styles';
-import { Text, TouchableOpacity } from 'react-native';
+import { Pressable, Text } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 export default function Button({
@@ -16,9 +16,9 @@ export default function Button({
   type?: string;
 }) {
   return (
-    <TouchableOpacity style={type === 'outline' ? styles.buttonOutline : styles.button} onPress={onPress}>
+    <Pressable style={type === 'outline' ? styles.buttonOutline : styles.button} onPress={onPress}>
       {icon && <Icon name={icon} style={[styles.buttonIcon, iconStyle]} />}
       {children && <Text style={styles.buttonText}>{children}</Text>}
-    </TouchableOpacity>
+    </Pressable>
   );
 }

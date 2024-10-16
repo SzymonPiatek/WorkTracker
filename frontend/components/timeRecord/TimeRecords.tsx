@@ -4,7 +4,6 @@ import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { TimeRecord } from './TimeRecord';
 import { monthNames } from '@/utils/date';
 import { useEffect, useState } from 'react';
-import { primaryColor, secondaryColor } from '@/styles/colors';
 
 export function TimeRecords({ records }: { records: TimeRecordType[] | [] }) {
   const todayDate = new Date();
@@ -34,7 +33,7 @@ export function TimeRecords({ records }: { records: TimeRecordType[] | [] }) {
     }, {} as { [key: string]: { [key: string]: TimeRecordType[] } });
   };
 
-  const calculateWorkTime = (records: TimeRecordType[], isDaily: boolean = false): string => {
+  const calculateWorkTime = (records: TimeRecordType[]): string => {
     const msInHour = 1000 * 60 * 60;
     const msInDay = msInHour * 8;
     let totalActualWorkTime = 0;
@@ -101,7 +100,7 @@ export function TimeRecords({ records }: { records: TimeRecordType[] | [] }) {
                         }}
                       >
                         <Text style={styles.timeRecordText}>{dayKey}</Text>
-                        <Text style={styles.timeRecordText}>{calculateWorkTime(groupedByDay[dayKey], true)}</Text>
+                        <Text style={styles.timeRecordText}>{calculateWorkTime(groupedByDay[dayKey])}</Text>
                       </View>
                       {groupedByDay[dayKey]
                         .sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime())

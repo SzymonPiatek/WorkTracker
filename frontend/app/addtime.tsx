@@ -21,14 +21,12 @@ export default function AddTimePage() {
         body: JSON.stringify({ isEntry, timestamp }),
       });
 
-      if (!response.ok) {
-        throw new Error(`Error: ${response.status} ${response.statusText}`);
-      }
-
       const data = await response.json();
-      Alert.alert('Sukces', data.message);
+      Alert.alert(data.success ? 'Sukces' : 'Błąd', data.message);
 
-      navigation.goBack();
+      if (response.ok) {
+        navigation.goBack();
+      }
     } catch (error: any) {
       Alert.alert('Błąd', error.message);
     }

@@ -45,6 +45,44 @@ export function TimeRecordsDiv({ records }: { records: TimeRecordType[] | [] }) 
     return yearA === yearB ? monthB - monthA : yearB - yearA;
   });
 
+  function calculateWorkTimeForMonth(records: TimeRecordType[]): string {
+    const msInHour = 1000 * 60 * 60;
+    const msInDay = msInHour * 8;
+
+    const groupedByDay = records.reduce((acc: { [key: string]: TimeRecordType[] }, record) => {
+      const date = new Date(record.timestamp);
+      const dayKey = `${date.getUTCFullYear()}-${String(date.getUTCMonth() + 1).padStart(2, '0')}-${String(
+        date.getUTCDate(),
+      ).padStart(2, '0')}`;
+      if (!acc[dayKey]) acc[dayKey] = [];
+      acc[dayKey].push(record);
+      return acc;
+    }, {});
+
+    const totalTheoreticalWorkTime = Object.keys(groupedByDay).length * msInDay;
+
+    let totalActualWorkTime = 0;
+
+    Object.values(groupedByDay).forEach((dayRecords) => {
+      const sortedRecords = dayRecords.sort(
+        (a, b) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime(),
+      );
+
+      for (let i = 0; i < sortedRecords.length - 1; i += 2) {
+        const entryTime = new Date(sortedRecords[i].timestamp);
+        const exitTime = new Date(sortedRecords[i + 1].timestamp);
+        totalActualWorkTime += exitTime.getTime() - entryTime.getTime();
+      }
+    });
+
+    const timeDifferenceMs = totalTheoreticalWorkTime - totalActualWorkTime;
+
+    const hoursDiff = Math.floor(timeDifferenceMs / msInHour);
+    const minutesDiff = Math.floor((timeDifferenceMs % msInHour) / (1000 * 60));
+
+    return `${hoursDiff > 0 ? '- ' : ''}${String(hoursDiff).padStart(2, '0')}:${String(minutesDiff).padStart(2, '0')}`;
+  }
+
   Object.values(groupedRecords).forEach((records) => {
     records.sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
   });
@@ -64,6 +102,8 @@ export function TimeRecordsDiv({ records }: { records: TimeRecordType[] | [] }) 
           const monthName = `${monthNames[parseInt(month) - 1]} ${year}`;
           const isVisible = visibleMonths[yearMonth];
 
+          const workTimeDifference = calculateWorkTimeForMonth(groupedRecords[yearMonth]);
+
           return (
             <View key={yearMonth} style={{ gap: 12 }}>
               <TouchableOpacity onPress={() => toggleMonthVisibility(yearMonth)} style={styles.timeRecordTitleDiv}>
@@ -71,7 +111,7 @@ export function TimeRecordsDiv({ records }: { records: TimeRecordType[] | [] }) 
                   <Text style={styles.timeRecordTitle} children={monthName} />
                 </View>
                 <View style={styles.timeRecordTime}>
-                  <Text style={styles.timeRecordTitle}>- 00:15</Text>
+                  <Text style={styles.timeRecordTitle}>{workTimeDifference}</Text>
                 </View>
               </TouchableOpacity>
 

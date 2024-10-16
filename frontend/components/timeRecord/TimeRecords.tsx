@@ -4,8 +4,9 @@ import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { TimeRecord } from './TimeRecord';
 import { monthNames } from '@/utils/date';
 import { useEffect, useState } from 'react';
+import { primaryColor, secondaryColor } from '@/styles/colors';
 
-export function TimeRecordsDiv({ records }: { records: TimeRecordType[] | [] }) {
+export function TimeRecords({ records }: { records: TimeRecordType[] | [] }) {
   const todayDate = new Date();
   const currentYearMonth = `${todayDate.getUTCFullYear()}-${String(todayDate.getUTCMonth() + 1).padStart(2, '0')}`;
   const [visibleMonths, setVisibleMonths] = useState<{ [key: string]: boolean }>({});
@@ -68,23 +69,23 @@ export function TimeRecordsDiv({ records }: { records: TimeRecordType[] | [] }) 
   }, [currentYearMonth]);
 
   return (
-    <ScrollView style={{ gap: 20 }}>
-      <View style={{ gap: 20 }}>
+    <ScrollView style={styles.timeRecordsView}>
+      <View style={styles.timeRecordsView}>
         {sortedMonthKeys.map((yearMonth) => {
           const monthName = `${monthNames[parseInt(yearMonth.split('-')[1]) - 1]} ${yearMonth.split('-')[0]}`;
           const isVisible = visibleMonths[yearMonth];
           const groupedByDay = groupedRecords[yearMonth];
-          const sortedDayKeys = Object.keys(groupedByDay).sort((a, b) => new Date(a).getTime() - new Date(b).getTime());
+          const sortedDayKeys = Object.keys(groupedByDay).sort((a, b) => new Date(b).getTime() - new Date(a).getTime());
           const workTimeDifference = calculateWorkTime(Object.values(groupedByDay).flat());
 
           return (
-            <View key={yearMonth} style={{ gap: 12 }}>
-              <TouchableOpacity onPress={() => toggleMonthVisibility(yearMonth)} style={styles.timeRecordTitleDiv}>
-                <View style={styles.timeRecordTitleButton}>
-                  <Text style={styles.timeRecordTitle}>{monthName}</Text>
+            <View key={yearMonth} style={styles.timeRecordsTitleView}>
+              <TouchableOpacity onPress={() => toggleMonthVisibility(yearMonth)} style={styles.timeRecordsTitleButton}>
+                <View>
+                  <Text style={styles.timeRecordsTitleText}>{monthName}</Text>
                 </View>
-                <View style={styles.timeRecordTime}>
-                  <Text style={styles.timeRecordTitle}>{workTimeDifference}</Text>
+                <View style={styles.timeRecordsTitleTime}>
+                  <Text style={styles.timeRecordsTitleText}>{workTimeDifference}</Text>
                 </View>
               </TouchableOpacity>
 
@@ -92,11 +93,15 @@ export function TimeRecordsDiv({ records }: { records: TimeRecordType[] | [] }) 
                 <View style={styles.timeRecordsContainer}>
                   {sortedDayKeys.map((dayKey) => (
                     <View key={dayKey} style={{ gap: 12 }}>
-                      <View style={{ flexDirection: 'row', justifyContent: 'space-between', gap: 20 }}>
-                        <Text style={{ fontSize: 16, color: '#fff' }}>{dayKey}</Text>
-                        <Text style={{ fontSize: 16, color: '#fff' }}>
-                          {calculateWorkTime(groupedByDay[dayKey], true)}
-                        </Text>
+                      <View
+                        style={{
+                          flexDirection: 'row',
+                          justifyContent: 'space-between',
+                          gap: 20,
+                        }}
+                      >
+                        <Text style={styles.timeRecordText}>{dayKey}</Text>
+                        <Text style={styles.timeRecordText}>{calculateWorkTime(groupedByDay[dayKey], true)}</Text>
                       </View>
                       {groupedByDay[dayKey]
                         .sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime())

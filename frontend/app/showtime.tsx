@@ -1,5 +1,5 @@
 import BackButton from '@/components/button/BackButton';
-import { TimeRecordsDiv } from '@/components/timeRecord/TimeRecordDiv';
+import { TimeRecords } from '@/components/timeRecord/TimeRecords';
 import { workUrl } from '@/constants';
 import { styles } from '@/styles/styles';
 import { TimeRecordType } from '@/utils/types';
@@ -41,7 +41,7 @@ export default function ShowTimePage() {
         {isLoading ? (
           <Text>Ładowanie danych...</Text>
         ) : timeRecords.length > 0 ? (
-          <TimeRecordsDiv records={timeRecords} />
+          <TimeRecords records={timeRecords} />
         ) : (
           <View style={{ flex: 1, justifyContent: 'center' }}>
             <Text style={{ textAlign: 'center', color: '#fff', fontSize: 24 }}>Brak danych</Text>

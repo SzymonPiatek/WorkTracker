@@ -1,4 +1,5 @@
-import { primaryColor, secondaryColor, styles } from '@/styles/styles';
+import { primaryColor, secondaryColor } from '@/styles/colors';
+import { styles } from '@/styles/styles';
 import { daysOfWeek } from '@/utils/date';
 import { TimeRecordType } from '@/utils/types';
 import { Text, View } from 'react-native';

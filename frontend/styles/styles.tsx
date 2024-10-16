@@ -1,8 +1,5 @@
 import { StyleSheet } from 'react-native';
-
-export const primaryColor = '#d48713';
-export const secondaryColor = '#d46013';
-export const backgroundColor = '#262626';
+import { backgroundColor, primaryColor, secondaryColor } from './colors';
 
 export const styles = StyleSheet.create({
   mainMenuContainer: {
@@ -35,6 +32,45 @@ export const styles = StyleSheet.create({
     gap: 20,
   },
 
+  timeRecordsView: {
+    gap: 20,
+  },
+
+  timeRecordsTitleView: {
+    gap: 12,
+  },
+
+  timeRecordsTitleButton: {
+    backgroundColor: secondaryColor,
+
+    width: '100%',
+
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    gap: 8,
+
+    borderRadius: 16,
+
+    padding: 4,
+  },
+
+  timeRecordsTitleText: {
+    fontSize: 20,
+    color: '#fff',
+    paddingHorizontal: 4,
+  },
+
+  timeRecordsTitleTime: {
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+
+    backgroundColor: backgroundColor,
+
+    borderRadius: 12,
+  },
+
   timeRecordsContainer: {
     flex: 1,
     display: 'flex',
@@ -50,44 +86,6 @@ export const styles = StyleSheet.create({
     borderRadius: 12,
   },
 
-  timeRecordTitleDiv: {
-    backgroundColor: secondaryColor,
-
-    width: '100%',
-
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-
-    borderRadius: 16,
-
-    padding: 4,
-  },
-
-  timeRecordTime: {
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-
-    backgroundColor: backgroundColor,
-
-    borderRadius: 12,
-  },
-
-  timeRecordTitleButton: {
-    paddingVertical: 4,
-    paddingHorizontal: 8,
-    gap: 20,
-
-    flex: 1,
-
-    justifyContent: 'center',
-  },
-
-  timeRecordTitle: {
-    fontSize: 20,
-    color: '#fff',
-  },
 
   timeRecordText: {
     fontSize: 16,

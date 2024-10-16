@@ -43,7 +43,7 @@ export default function ShowTimePage() {
           <TimeRecordsDiv records={timeRecords} />
         ) : (
           <View style={{ flex: 1, justifyContent: 'center' }}>
-            <Text style={{ textAlign: 'center', color: '#fff', fontSize: 20 }}>Brak danych</Text>
+            <Text style={{ textAlign: 'center', color: '#fff', fontSize: 24 }}>Brak danych</Text>
           </View>
         )}
       </View>

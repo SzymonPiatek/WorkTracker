@@ -1,10 +1,24 @@
 import { styles } from '@/styles/styles';
-import { TouchableOpacity, View } from 'react-native';
+import { Text, TouchableOpacity } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
-export default function Button({ children, onPress }: { children: any; onPress: () => void }) {
+export default function Button({
+  children,
+  onPress,
+  icon,
+  iconStyle,
+  type,
+}: {
+  children: string;
+  onPress: () => void;
+  icon?: string;
+  iconStyle?: any;
+  type?: string;
+}) {
   return (
-    <TouchableOpacity style={styles.button} onPress={onPress}>
-      {children}
+    <TouchableOpacity style={type === 'outline' ? styles.buttonOutline : styles.button} onPress={onPress}>
+      {icon && <Icon name={icon} style={[styles.buttonIcon, iconStyle]} />}
+      {children && <Text style={styles.buttonText}>{children}</Text>}
     </TouchableOpacity>
   );
 }

@@ -12,7 +12,7 @@ export default function BackButton({ navigation }: { navigation: any }) {
       }}
     >
       <TouchableOpacity onPress={() => navigation.goBack()} style={styles.button}>
-        <Text style={styles.buttonText}>Wstecz</Text>
+        <Text style={styles.buttonText}>WSTECZ</Text>
       </TouchableOpacity>
     </View>
   );

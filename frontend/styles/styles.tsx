@@ -76,6 +76,8 @@ export const styles = StyleSheet.create({
   header: {
     fontSize: 36,
     color: '#fff',
+    textTransform: 'uppercase',
+    paddingVertical: 20,
   },
 
   text: {
@@ -90,10 +92,42 @@ export const styles = StyleSheet.create({
     borderRadius: 12,
 
     width: '100%',
+
+    gap: 20,
+
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+
+  buttonOutline: {
+    width: '100%',
+
+    paddingHorizontal: 20,
+    paddingVertical: 12,
+
+    borderRadius: 12,
+    borderWidth: 2,
+    borderColor: primaryColor,
+
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+
+    gap: 20,
   },
 
   buttonText: {
     color: '#fff',
     textAlign: 'center',
+    textTransform: 'uppercase',
+    fontSize: 20,
+  },
+
+  buttonIcon: {
+    color: '#fff',
+    fontSize: 24,
   },
 });

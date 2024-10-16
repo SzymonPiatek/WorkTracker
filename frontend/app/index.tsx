@@ -13,13 +13,9 @@ export default function Index() {
       </View>
 
       <View style={styles.mainMenuHalfContainer}>
-        <Button onPress={() => navigation.navigate('addtime' as never)}>
-          <Text style={styles.buttonText} children='ODBIJ SIĘ' />
-        </Button>
+        <Button onPress={() => navigation.navigate('addtime' as never)} children='DODAJ CZAS' />
 
-        <Button onPress={() => navigation.navigate('showtime' as never)}>
-          <Text style={styles.buttonText} children='ZOBACZ DANE' />
-        </Button>
+        <Button onPress={() => navigation.navigate('showtime' as never)} children='ZOBACZ DANE' />
       </View>
     </View>
   );

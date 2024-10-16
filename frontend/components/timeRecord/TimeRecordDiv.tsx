@@ -8,107 +8,80 @@ import { useEffect, useState } from 'react';
 export function TimeRecordsDiv({ records }: { records: TimeRecordType[] | [] }) {
   const todayDate = new Date();
   const currentYearMonth = `${todayDate.getUTCFullYear()}-${String(todayDate.getUTCMonth() + 1).padStart(2, '0')}`;
-
   const [visibleMonths, setVisibleMonths] = useState<{ [key: string]: boolean }>({});
 
   const toggleMonthVisibility = (yearMonth: string) => {
-    setVisibleMonths((prev) => {
-      const newVisibility: { [key: string]: boolean } = {};
-
-      Object.keys(prev).forEach((month) => {
-        newVisibility[month] = false;
-      });
-
-      newVisibility[yearMonth] = !prev[yearMonth];
-
-      return newVisibility;
-    });
+    setVisibleMonths((prev) => ({
+      ...prev,
+      [yearMonth]: !prev[yearMonth],
+    }));
   };
 
-  const groupRecordsByMonth = (records: TimeRecordType[]) => {
-    return records.reduce((groups: { [key: string]: TimeRecordType[] }, record) => {
+  const groupRecords = (records: TimeRecordType[]) => {
+    return records.reduce((acc, record) => {
       const date = new Date(record.timestamp);
       const yearMonth = `${date.getUTCFullYear()}-${String(date.getUTCMonth() + 1).padStart(2, '0')}`;
-      if (!groups[yearMonth]) {
-        groups[yearMonth] = [];
-      }
-      groups[yearMonth].push(record);
-      return groups;
-    }, {});
-  };
-
-  const groupedRecords = groupRecordsByMonth(records);
-
-  const sortedMonthKeys = Object.keys(groupedRecords).sort((a, b) => {
-    const [yearA, monthA] = a.split('-').map(Number);
-    const [yearB, monthB] = b.split('-').map(Number);
-    return yearA === yearB ? monthB - monthA : yearB - yearA;
-  });
-
-  function calculateWorkTimeForMonth(records: TimeRecordType[]): string {
-    const msInHour = 1000 * 60 * 60;
-    const msInDay = msInHour * 8;
-
-    const groupedByDay = records.reduce((acc: { [key: string]: TimeRecordType[] }, record) => {
-      const date = new Date(record.timestamp);
-      const dayKey = `${date.getUTCFullYear()}-${String(date.getUTCMonth() + 1).padStart(2, '0')}-${String(
+      const yearMonthDay = `${date.getUTCFullYear()}-${String(date.getUTCMonth() + 1).padStart(2, '0')}-${String(
         date.getUTCDate(),
       ).padStart(2, '0')}`;
-      if (!acc[dayKey]) acc[dayKey] = [];
-      acc[dayKey].push(record);
+
+      if (!acc[yearMonth]) acc[yearMonth] = {};
+      if (!acc[yearMonth][yearMonthDay]) acc[yearMonth][yearMonthDay] = [];
+
+      acc[yearMonth][yearMonthDay].push(record);
       return acc;
-    }, {});
+    }, {} as { [key: string]: { [key: string]: TimeRecordType[] } });
+  };
 
-    const totalTheoreticalWorkTime = Object.keys(groupedByDay).length * msInDay;
-
+  const calculateWorkTime = (records: TimeRecordType[], isDaily: boolean = false): string => {
+    const msInHour = 1000 * 60 * 60;
+    const msInDay = msInHour * 8;
     let totalActualWorkTime = 0;
 
-    Object.values(groupedByDay).forEach((dayRecords) => {
-      const sortedRecords = dayRecords.sort(
-        (a, b) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime(),
-      );
+    const sortedRecords = records.sort((a, b) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime());
 
-      for (let i = 0; i < sortedRecords.length - 1; i += 2) {
-        const entryTime = new Date(sortedRecords[i].timestamp);
-        const exitTime = new Date(sortedRecords[i + 1].timestamp);
-        totalActualWorkTime += exitTime.getTime() - entryTime.getTime();
-      }
-    });
+    for (let i = 0; i < sortedRecords.length - 1; i += 2) {
+      const entryTime = new Date(sortedRecords[i].timestamp);
+      const exitTime = new Date(sortedRecords[i + 1].timestamp);
+      totalActualWorkTime += exitTime.getTime() - entryTime.getTime();
+    }
 
-    const timeDifferenceMs = totalTheoreticalWorkTime - totalActualWorkTime;
+    const uniqueDaysWorked = new Set(
+      sortedRecords.map((record) => new Date(record.timestamp).toISOString().split('T')[0]),
+    );
+    const theoreticalWorkTime = uniqueDaysWorked.size * msInDay;
 
+    const timeDifferenceMs = theoreticalWorkTime - totalActualWorkTime;
     const hoursDiff = Math.floor(timeDifferenceMs / msInHour);
     const minutesDiff = Math.floor((timeDifferenceMs % msInHour) / (1000 * 60));
 
-    return `${hoursDiff > 0 ? '- ' : ''}${String(hoursDiff).padStart(2, '0')}:${String(minutesDiff).padStart(2, '0')}`;
-  }
+    return `${hoursDiff > 0 ? '-' : ''} ${String(Math.abs(hoursDiff)).padStart(2, '0')}:${String(
+      Math.abs(minutesDiff),
+    ).padStart(2, '0')}`;
+  };
 
-  Object.values(groupedRecords).forEach((records) => {
-    records.sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
-  });
+  const groupedRecords = groupRecords(records);
+  const sortedMonthKeys = Object.keys(groupedRecords).sort((a, b) => new Date(b).getTime() - new Date(a).getTime());
 
   useEffect(() => {
-    setVisibleMonths((prev) => ({
-      ...prev,
-      [currentYearMonth]: true,
-    }));
+    setVisibleMonths((prev) => ({ ...prev, [currentYearMonth]: true }));
   }, [currentYearMonth]);
 
   return (
     <ScrollView style={{ gap: 20 }}>
       <View style={{ gap: 20 }}>
         {sortedMonthKeys.map((yearMonth) => {
-          const [year, month] = yearMonth.split('-');
-          const monthName = `${monthNames[parseInt(month) - 1]} ${year}`;
+          const monthName = `${monthNames[parseInt(yearMonth.split('-')[1]) - 1]} ${yearMonth.split('-')[0]}`;
           const isVisible = visibleMonths[yearMonth];
-
-          const workTimeDifference = calculateWorkTimeForMonth(groupedRecords[yearMonth]);
+          const groupedByDay = groupedRecords[yearMonth];
+          const sortedDayKeys = Object.keys(groupedByDay).sort((a, b) => new Date(a).getTime() - new Date(b).getTime());
+          const workTimeDifference = calculateWorkTime(Object.values(groupedByDay).flat());
 
           return (
             <View key={yearMonth} style={{ gap: 12 }}>
               <TouchableOpacity onPress={() => toggleMonthVisibility(yearMonth)} style={styles.timeRecordTitleDiv}>
                 <View style={styles.timeRecordTitleButton}>
-                  <Text style={styles.timeRecordTitle} children={monthName} />
+                  <Text style={styles.timeRecordTitle}>{monthName}</Text>
                 </View>
                 <View style={styles.timeRecordTime}>
                   <Text style={styles.timeRecordTitle}>{workTimeDifference}</Text>
@@ -117,13 +90,25 @@ export function TimeRecordsDiv({ records }: { records: TimeRecordType[] | [] }) 
 
               {isVisible && (
                 <View style={styles.timeRecordsContainer}>
-                  {groupedRecords[yearMonth].map((record) => {
-                    const recordDate = new Date(record.timestamp);
-                    const dayOfMonth = recordDate.getUTCDate();
-                    const isEven = dayOfMonth % 2 === 0;
+                  {sortedDayKeys.map((dayKey) => (
+                    <View key={dayKey} style={{ gap: 12 }}>
+                      <View style={{ flexDirection: 'row', justifyContent: 'space-between', gap: 20 }}>
+                        <Text style={{ fontSize: 16, color: '#fff' }}>{dayKey}</Text>
+                        <Text style={{ fontSize: 16, color: '#fff' }}>
+                          {calculateWorkTime(groupedByDay[dayKey], true)}
+                        </Text>
+                      </View>
+                      {groupedByDay[dayKey]
+                        .sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime())
+                        .map((record) => {
+                          const recordDate = new Date(record.timestamp);
+                          const dayOfMonth = recordDate.getUTCDate();
+                          const isEven = dayOfMonth % 2 === 0;
 
-                    return <TimeRecord key={record.id} record={record} isEven={isEven} />;
-                  })}
+                          return <TimeRecord key={record.id} record={record} isEven={isEven} />;
+                        })}
+                    </View>
+                  ))}
                 </View>
               )}
             </View>

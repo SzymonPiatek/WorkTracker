@@ -67,7 +67,12 @@ export function TimeRecordsDiv({ records }: { records: TimeRecordType[] | [] }) 
           return (
             <View key={yearMonth} style={{ gap: 12 }}>
               <TouchableOpacity onPress={() => toggleMonthVisibility(yearMonth)} style={styles.timeRecordTitleDiv}>
-                <Text style={styles.timeRecordTitle}>{monthName}</Text>
+                <View style={styles.timeRecordTitleButton}>
+                  <Text style={styles.timeRecordTitle} children={monthName} />
+                </View>
+                <View style={styles.timeRecordTime}>
+                  <Text style={styles.timeRecordTitle}>- 00:15</Text>
+                </View>
               </TouchableOpacity>
 
               {isVisible && (

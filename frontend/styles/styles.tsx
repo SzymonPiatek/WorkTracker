@@ -50,17 +50,43 @@ export const styles = StyleSheet.create({
     borderRadius: 12,
   },
 
+  timeRecordTitleDiv: {
+    backgroundColor: secondaryColor,
+
+    width: '100%',
+
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+
+    borderRadius: 16,
+
+    padding: 4,
+  },
+
+  timeRecordTime: {
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+
+    backgroundColor: backgroundColor,
+
+    borderRadius: 12,
+  },
+
+  timeRecordTitleButton: {
+    paddingVertical: 4,
+    paddingHorizontal: 8,
+    gap: 20,
+
+    flex: 1,
+
+    justifyContent: 'center',
+  },
+
   timeRecordTitle: {
     fontSize: 20,
     color: '#fff',
-    textAlign: 'center',
-  },
-
-  timeRecordTitleDiv: {
-    backgroundColor: secondaryColor,
-    borderRadius: 12,
-
-    paddingVertical: 4,
   },
 
   timeRecordText: {

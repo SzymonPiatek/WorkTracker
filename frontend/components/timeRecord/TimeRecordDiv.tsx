@@ -57,36 +57,34 @@ export function TimeRecordsDiv({ records }: { records: TimeRecordType[] | [] }) 
   }, [currentYearMonth]);
 
   return (
-    <View style={{ flex: 1 }}>
-      <ScrollView style={{ gap: 20 }}>
-        <View style={{ gap: 20 }}>
-          {sortedMonthKeys.map((yearMonth) => {
-            const [year, month] = yearMonth.split('-');
-            const monthName = `${monthNames[parseInt(month) - 1]} ${year}`;
-            const isVisible = visibleMonths[yearMonth];
+    <ScrollView style={{ gap: 20 }}>
+      <View style={{ gap: 20 }}>
+        {sortedMonthKeys.map((yearMonth) => {
+          const [year, month] = yearMonth.split('-');
+          const monthName = `${monthNames[parseInt(month) - 1]} ${year}`;
+          const isVisible = visibleMonths[yearMonth];
 
-            return (
-              <View key={yearMonth} style={{ gap: 12 }}>
-                <TouchableOpacity onPress={() => toggleMonthVisibility(yearMonth)} style={styles.timeRecordTitleDiv}>
-                  <Text style={styles.timeRecordTitle}>{monthName}</Text>
-                </TouchableOpacity>
+          return (
+            <View key={yearMonth} style={{ gap: 12 }}>
+              <TouchableOpacity onPress={() => toggleMonthVisibility(yearMonth)} style={styles.timeRecordTitleDiv}>
+                <Text style={styles.timeRecordTitle}>{monthName}</Text>
+              </TouchableOpacity>
 
-                {isVisible && (
-                  <View style={styles.timeRecordsContainer}>
-                    {groupedRecords[yearMonth].map((record) => {
-                      const recordDate = new Date(record.timestamp);
-                      const dayOfMonth = recordDate.getUTCDate();
-                      const isEven = dayOfMonth % 2 === 0;
+              {isVisible && (
+                <View style={styles.timeRecordsContainer}>
+                  {groupedRecords[yearMonth].map((record) => {
+                    const recordDate = new Date(record.timestamp);
+                    const dayOfMonth = recordDate.getUTCDate();
+                    const isEven = dayOfMonth % 2 === 0;
 
-                      return <TimeRecord key={record.id} record={record} isEven={isEven} />;
-                    })}
-                  </View>
-                )}
-              </View>
-            );
-          })}
-        </View>
-      </ScrollView>
-    </View>
+                    return <TimeRecord key={record.id} record={record} isEven={isEven} />;
+                  })}
+                </View>
+              )}
+            </View>
+          );
+        })}
+      </View>
+    </ScrollView>
   );
 }

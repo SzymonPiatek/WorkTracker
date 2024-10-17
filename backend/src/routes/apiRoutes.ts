@@ -1,5 +1,8 @@
-import express from 'express';
+import { Router } from 'express';
+import workRoutes from './workRoutes';
 
-const router = express.Router();
+const router = Router();
+
+router.use('/work', workRoutes);
 
 export default router;
